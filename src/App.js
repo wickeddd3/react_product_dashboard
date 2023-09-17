@@ -1,9 +1,8 @@
 import './App.css';
-import * as React from 'react';
-import Button from '@mui/material/Button';
+import Dashboard from './components/dashboard/Dashboard.js';
 
 function App() {
-  return <Button variant="contained">Hello world</Button>;
+  return <Dashboard />
 }
 
 export default App;
