@@ -1,8 +1,13 @@
+import { RouterProvider } from 'react-router-dom';
+import router from './router';
 import './App.css';
-import Dashboard from './components/dashboard/Dashboard.js';
 
 function App() {
-  return <Dashboard />
+  return (
+    <div className="app">
+      <RouterProvider router={router} />
+    </div>
+  );
 }
 
 export default App;
