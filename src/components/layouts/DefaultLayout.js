@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Appbar from '../partials/Appbar.js';
 import Sidebar from '../partials/Sidebar.js';
@@ -28,7 +29,19 @@ export default function DefaultLayout() {
           drawerState={open}
           toggleDrawer={toggleDrawer}
         />
-        <Outlet />
+        <Box
+          component="main"
+          sx={{
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
+            flexGrow: 1,
+            height: '100vh',
+            overflow: 'auto',
+          }}
+        >
+          <Toolbar />
+          <Outlet />
+        </Box>
       </Box>
     </ThemeProvider>
   );
