@@ -23,7 +23,7 @@ export const mainListItems = (
     </ListItemButton>
     <ListItemButton
       component={Link}
-      to={'/products'}
+      to={'/'}
     >
       <ListItemIcon>
         <ShoppingCartIcon />
@@ -32,7 +32,7 @@ export const mainListItems = (
     </ListItemButton>
     <ListItemButton
       component={Link}
-      to={'/'}
+      to={'/customers'}
     >
       <ListItemIcon>
         <PeopleIcon />
