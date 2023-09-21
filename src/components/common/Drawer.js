@@ -14,10 +14,11 @@ export default function Drawer({ show, component, anchor = 'right', closeDrawer 
         <Box
           sx={{ width: 350 }}
           role="presentation"
-          onClick={() => closeDrawer(false)}
-          onKeyDown={() => closeDrawer(false)}
         >
-          <DynamicComponent is={component} />
+          <DynamicComponent
+            is={component}
+            close={closeDrawer}
+          />
         </Box>
       </MuiDrawer>
     </div>
