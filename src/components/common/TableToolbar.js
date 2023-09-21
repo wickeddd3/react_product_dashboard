@@ -4,11 +4,11 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { alpha } from '@mui/material/styles';
 
 export default function TableToolbar(props) {
-  const { numSelected, title } = props;
+  const { numSelected, title, addItem } = props;
 
   return (
     <Toolbar
@@ -47,9 +47,9 @@ export default function TableToolbar(props) {
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
+        <Tooltip title="Add Customer">
+          <IconButton onClick={addItem}>
+            <AddCircleOutlineIcon />
           </IconButton>
         </Tooltip>
       )}
@@ -60,4 +60,5 @@ export default function TableToolbar(props) {
 TableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  addItem: PropTypes.func.isRequired,
 };
