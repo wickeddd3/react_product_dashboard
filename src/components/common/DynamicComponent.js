@@ -1,7 +1,5 @@
 import { createElement } from 'react';
 
-const DynamicComponent = ({ is }) => {
-  return createElement(is);
-};
-
-export default DynamicComponent;
+export default function DynamicComponent({ is, ...rest }) {
+  return createElement(is, { ...rest });
+}
