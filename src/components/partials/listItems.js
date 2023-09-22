@@ -2,12 +2,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PeopleIcon from '@mui/icons-material/People';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import LayersIcon from '@mui/icons-material/Layers';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
+import DonutLargeOutlinedIcon from '@mui/icons-material/DonutLargeOutlined';
 import { Link } from 'react-router-dom';
 
 export const mainListItems = (
@@ -17,7 +16,7 @@ export const mainListItems = (
       to={'/'}
     >
       <ListItemIcon>
-        <DashboardIcon />
+        <InsightsOutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
@@ -26,7 +25,7 @@ export const mainListItems = (
       to={'/'}
     >
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <Inventory2OutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="Products" />
     </ListItemButton>
@@ -35,7 +34,7 @@ export const mainListItems = (
       to={'/customers'}
     >
       <ListItemIcon>
-        <PeopleIcon />
+        <PeopleAltOutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="Customers" />
     </ListItemButton>
@@ -44,18 +43,9 @@ export const mainListItems = (
       to={'/'}
     >
       <ListItemIcon>
-        <BarChartIcon />
+        <InsertChartOutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="Reports" />
-    </ListItemButton>
-    <ListItemButton
-      component={Link}
-      to={'/'}
-    >
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Integrations" />
     </ListItemButton>
   </>
 );
@@ -70,19 +60,19 @@ export const secondaryListItems = (
     </ListSubheader>
     <ListItemButton>
       <ListItemIcon>
-        <AssignmentIcon />
+        <DonutLargeOutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="Current month" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <AssignmentIcon />
+        <DonutLargeOutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="Last quarter" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <AssignmentIcon />
+        <DonutLargeOutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="Year-end sale" />
     </ListItemButton>
