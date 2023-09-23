@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectCustomer, resetSelectedCustomer } from '../store/reducers/customers';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -12,6 +13,9 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import TableToolbar from '../components/common/TableToolbar';
 import TableHeader from '../components/common/TableHeader';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import { stableSort, getComparator } from '../utils/sort';
 import Drawer from '../components/common/Drawer';
 import CustomerForm from '../components/customers/CustomerForm';
@@ -19,7 +23,7 @@ import CustomerForm from '../components/customers/CustomerForm';
 export default function ProductsPage() {
   const headCells = useSelector((state) => state.customers.headCells);
   const rows = useSelector((state) => state.customers.rows);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [selected, setSelected] = useState([]);
@@ -29,10 +33,18 @@ export default function ProductsPage() {
   const [drawerComponent, setDrawerComponent] = useState(() => null);
   const [showDrawer, setShowDrawer] = useState(false);
 
-  function handleSetDrawerComponent(component) {
-    setDrawerComponent(() => component);
+  const handleAddCustomer = () => {
+    dispatch(resetSelectedCustomer());
+    setDrawerComponent(() => CustomerForm);
     setShowDrawer(true);
-  }
+  };
+
+  const handleEditCustomer = ({ row, event }) => {
+    event.stopPropagation();
+    dispatch(selectCustomer(row));
+    setDrawerComponent(() => CustomerForm);
+    setShowDrawer(true);
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -95,7 +107,7 @@ export default function ProductsPage() {
           <TableToolbar
             title="Customer"
             numSelected={selected.length}
-            addItem={() => handleSetDrawerComponent(CustomerForm)}
+            addItem={() => handleAddCustomer()}
           />
           <TableContainer>
             <Table
@@ -151,6 +163,19 @@ export default function ProductsPage() {
                         align="center"
                       >
                         {row.contact}
+                      </TableCell>
+                      <TableCell
+                        padding="none"
+                        align="center"
+                      >
+                        <Tooltip
+                          title="Edit Customer"
+                          placement="left"
+                        >
+                          <IconButton onClick={(event) => handleEditCustomer({ row, event })}>
+                            <ModeEditOutlineOutlinedIcon />
+                          </IconButton>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   );
