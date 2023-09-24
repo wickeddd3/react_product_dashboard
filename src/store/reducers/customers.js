@@ -84,9 +84,19 @@ export const customersSlice = createSlice({
       rows[index] = updatedCustomer;
       state.rows = rows;
     },
+    deleteCustomer: (state, action) => {
+      const rows = [...state.rows];
+      const selectedCustomer = action.payload;
+      const index = rows.findIndex((row) => row.id === selectedCustomer.id);
+      if (index >= 0) {
+        rows.splice(index, 1);
+        state.rows = rows;
+      }
+    },
   },
 });
 
-export const { createCustomer, selectCustomer, resetSelectedCustomer, updateCustomer } = customersSlice.actions;
+export const { createCustomer, selectCustomer, resetSelectedCustomer, updateCustomer, deleteCustomer } =
+  customersSlice.actions;
 
 export default customersSlice.reducer;
