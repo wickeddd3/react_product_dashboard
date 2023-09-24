@@ -8,7 +8,7 @@ import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined';
 import { alpha } from '@mui/material/styles';
 
 export default function TableToolbar(props) {
-  const { numSelected, title, addItem } = props;
+  const { numSelected, title, addButtonTitle, addItem, deleteItems, deleteButtonTitle } = props;
 
   return (
     <Toolbar
@@ -41,13 +41,16 @@ export default function TableToolbar(props) {
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
+        <Tooltip
+          title={deleteButtonTitle}
+          placement="left"
+        >
+          <IconButton onClick={deleteItems}>
             <DeleteSweepOutlinedIcon />
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Add Customer">
+        <Tooltip title={addButtonTitle}>
           <IconButton onClick={addItem}>
             <AddCircleOutlineIcon />
           </IconButton>

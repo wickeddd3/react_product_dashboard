@@ -1,6 +1,11 @@
 import { useState, useMemo, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCustomer, resetSelectedCustomer, deleteCustomer } from '../store/reducers/customers';
+import {
+  selectCustomer,
+  resetSelectedCustomer,
+  deleteCustomer,
+  deleteSelectedCustomers,
+} from '../store/reducers/customers';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -61,6 +66,20 @@ export default function ProductsPage() {
     });
   };
 
+  const handleDeleteSelectedCustomers = () => {
+    const deleteSelectedItems = () => {
+      dispatch(deleteSelectedCustomers(selected));
+      setSelected([]);
+    };
+    setDialog({
+      show: true,
+      text: 'You are about to delete all selected customers permanently. Click "Confirm" if you want to proceed.',
+      handler: () => deleteSelectedItems(),
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Confirm',
+    });
+  };
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -69,19 +88,18 @@ export default function ProductsPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
-      setSelected(newSelected);
+      setSelected(rows);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, row) => {
+    const selectedIndex = selected.findIndex((item) => item?.id === row.id);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, row);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -102,7 +120,7 @@ export default function ProductsPage() {
     setPage(0);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (id) => selected.findIndex((item) => item?.id === id) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -121,8 +139,11 @@ export default function ProductsPage() {
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableToolbar
             title="Customer"
+            addButtonTitle="Add Customer"
+            deleteButtonTitle="Delete selected customers"
             numSelected={selected.length}
             addItem={() => handleAddCustomer()}
+            deleteItems={() => handleDeleteSelectedCustomers()}
           />
           <TableContainer>
             <Table
@@ -141,13 +162,13 @@ export default function ProductsPage() {
               />
               <TableBody>
                 {visibleRows.map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
