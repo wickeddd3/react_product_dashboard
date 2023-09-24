@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCustomer, resetSelectedCustomer } from '../store/reducers/customers';
+import { selectCustomer, resetSelectedCustomer, deleteCustomer } from '../store/reducers/customers';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -16,9 +16,11 @@ import TableHeader from '../components/common/TableHeader';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { stableSort, getComparator } from '../utils/sort';
 import Drawer from '../components/common/Drawer';
 import CustomerForm from '../components/customers/CustomerForm';
+import DialogContext from '../contexts/DialogContext';
 
 export default function ProductsPage() {
   const headCells = useSelector((state) => state.customers.headCells);
@@ -33,6 +35,8 @@ export default function ProductsPage() {
   const [drawerComponent, setDrawerComponent] = useState(() => null);
   const [showDrawer, setShowDrawer] = useState(false);
 
+  const { setDialog } = useContext(DialogContext);
+
   const handleAddCustomer = () => {
     dispatch(resetSelectedCustomer());
     setDrawerComponent(() => CustomerForm);
@@ -44,6 +48,17 @@ export default function ProductsPage() {
     dispatch(selectCustomer(row));
     setDrawerComponent(() => CustomerForm);
     setShowDrawer(true);
+  };
+
+  const handleDeleteCustomer = ({ row, event }) => {
+    event.stopPropagation();
+    setDialog({
+      show: true,
+      text: 'You are about to delete this customer permanently. Click "Confirm" if you want to proceed.',
+      handler: () => dispatch(deleteCustomer(row)),
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Confirm',
+    });
   };
 
   const handleRequestSort = (event, property) => {
@@ -174,6 +189,14 @@ export default function ProductsPage() {
                         >
                           <IconButton onClick={(event) => handleEditCustomer({ row, event })}>
                             <ModeEditOutlineOutlinedIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip
+                          title="Delete Customer"
+                          placement="left"
+                        >
+                          <IconButton onClick={(event) => handleDeleteCustomer({ row, event })}>
+                            <DeleteOutlineOutlinedIcon />
                           </IconButton>
                         </Tooltip>
                       </TableCell>
