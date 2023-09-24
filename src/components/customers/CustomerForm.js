@@ -7,14 +7,22 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import DrawerContent from '../common/DrawerContent';
 import FormTextField from '../common/form/FormTextField';
+import { useSnackbar } from 'notistack';
 
 export default function CustomerForm({ close }) {
   const selectedCustomer = useSelector((state) => state.customers.selectedCustomer);
   const dispatch = useDispatch();
   const methods = useForm({ defaultValues: selectedCustomer });
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = methods.handleSubmit((data) => {
-    selectedCustomer?.id ? dispatch(updateCustomer(data)) : dispatch(createCustomer(data));
+    if (selectedCustomer?.id) {
+      dispatch(updateCustomer(data));
+      enqueueSnackbar('Customer has been updated successfully.', { variant: 'success' });
+    } else {
+      dispatch(createCustomer(data));
+      enqueueSnackbar('Customer has been created successfully.', { variant: 'success' });
+    }
     methods.reset();
     close();
   });

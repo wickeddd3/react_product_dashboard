@@ -26,6 +26,7 @@ import { stableSort, getComparator } from '../utils/sort';
 import Drawer from '../components/common/Drawer';
 import CustomerForm from '../components/customers/CustomerForm';
 import DialogContext from '../contexts/DialogContext';
+import { useSnackbar } from 'notistack';
 
 export default function ProductsPage() {
   const headCells = useSelector((state) => state.customers.headCells);
@@ -42,6 +43,8 @@ export default function ProductsPage() {
 
   const { setDialog } = useContext(DialogContext);
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleAddCustomer = () => {
     dispatch(resetSelectedCustomer());
     setDrawerComponent(() => CustomerForm);
@@ -57,10 +60,14 @@ export default function ProductsPage() {
 
   const handleDeleteCustomer = ({ row, event }) => {
     event.stopPropagation();
+    const deleteSelectedItem = () => {
+      dispatch(deleteCustomer(row));
+      enqueueSnackbar('Selected customer has been permanently deleted.', { variant: 'success' });
+    };
     setDialog({
       show: true,
       text: 'You are about to delete this customer permanently. Click "Confirm" if you want to proceed.',
-      handler: () => dispatch(deleteCustomer(row)),
+      handler: () => deleteSelectedItem(),
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Confirm',
     });
@@ -70,6 +77,7 @@ export default function ProductsPage() {
     const deleteSelectedItems = () => {
       dispatch(deleteSelectedCustomers(selected));
       setSelected([]);
+      enqueueSnackbar('Selected customers has been permanently deleted.', { variant: 'success' });
     };
     setDialog({
       show: true,
