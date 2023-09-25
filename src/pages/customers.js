@@ -23,39 +23,45 @@ import Tooltip from '@mui/material/Tooltip';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { stableSort, getComparator } from '../utils/sort';
-import Drawer from '../components/common/Drawer';
 import CustomerForm from '../components/customers/CustomerForm';
+import DrawerContext from '../contexts/DrawerContext';
 import DialogContext from '../contexts/DialogContext';
 import { useSnackbar } from 'notistack';
 
 export default function ProductsPage() {
+  const dispatch = useDispatch();
+
   const headCells = useSelector((state) => state.customers.headCells);
   const rows = useSelector((state) => state.customers.rows);
-  const dispatch = useDispatch();
+
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const [drawerComponent, setDrawerComponent] = useState(() => null);
-  const [showDrawer, setShowDrawer] = useState(false);
-
+  const { setDrawer } = useContext(DrawerContext);
   const { setDialog } = useContext(DialogContext);
 
   const { enqueueSnackbar } = useSnackbar();
 
   const handleAddCustomer = () => {
     dispatch(resetSelectedCustomer());
-    setDrawerComponent(() => CustomerForm);
-    setShowDrawer(true);
+    setDrawer({
+      show: true,
+      anchor: 'right',
+      component: CustomerForm,
+    });
   };
 
   const handleEditCustomer = ({ row, event }) => {
     event.stopPropagation();
     dispatch(selectCustomer(row));
-    setDrawerComponent(() => CustomerForm);
-    setShowDrawer(true);
+    setDrawer({
+      show: true,
+      anchor: 'right',
+      component: CustomerForm,
+    });
   };
 
   const handleDeleteCustomer = ({ row, event }) => {
@@ -255,12 +261,6 @@ export default function ProductsPage() {
           />
         </Paper>
       </Box>
-
-      <Drawer
-        show={showDrawer}
-        component={drawerComponent}
-        closeDrawer={() => setShowDrawer(false)}
-      />
     </Container>
   );
 }
