@@ -7,6 +7,7 @@ import {
   deleteSelectedCustomers,
 } from '../store/reducers/customers';
 import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -20,14 +21,18 @@ import TableToolbar from '../components/common/table/TableToolbar';
 import TableHeader from '../components/common/table/TableHeader';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import AddIcon from '@mui/icons-material/Add';
 import { stableSort, getComparator } from '../utils/sort';
 import { filterArrayObject } from '../utils/filter';
 import CustomerForm from '../components/customers/CustomerForm';
 import DrawerContext from '../contexts/DrawerContext';
 import DialogContext from '../contexts/DialogContext';
 import { useSnackbar } from 'notistack';
+import Breadcrumb from '../components/common/Breadcrumb';
 
 export default function ProductsPage() {
   const dispatch = useDispatch();
@@ -153,16 +158,53 @@ export default function ProductsPage() {
       maxWidth="lg"
       sx={{ mt: 4, mb: 4 }}
     >
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ mb: 2 }}
+      >
+        <Grid item>
+          <Grid
+            container
+            direction="column"
+            spacing={2}
+            sx={{ mb: 2 }}
+          >
+            <Grid item>
+              <Typography
+                component="h6"
+                variant="h6"
+              >
+                List of customers
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Breadcrumb />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Button
+            component="label"
+            variant="contained"
+            color="primary"
+            startIcon={<AddIcon />}
+            onClick={() => handleAddCustomer()}
+          >
+            Add new customer
+          </Button>
+        </Grid>
+      </Grid>
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableToolbar
             canSearch={true}
             searchInput={searchInput}
             setSearchInput={(value) => setSearchInput(value)}
-            addButtonTitle="Add Customer"
             deleteButtonTitle="Delete selected customers"
             numSelected={selected.length}
-            addItem={() => handleAddCustomer()}
             deleteItems={() => handleDeleteSelectedCustomers()}
           />
           <TableContainer>

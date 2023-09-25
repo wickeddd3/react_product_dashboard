@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper';
 import Chart from '../components/dashboard/Chart.js';
 import Deposits from '../components/dashboard/Deposits.js';
 import Orders from '../components/dashboard/Orders.js';
+import Breadcrumb from '../components/common/Breadcrumb';
 
 export default function DashboardPage() {
   return (
@@ -12,6 +13,18 @@ export default function DashboardPage() {
       maxWidth="lg"
       sx={{ mt: 4, mb: 4 }}
     >
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ mb: 2 }}
+      >
+        <Grid item>
+          <Breadcrumb />
+        </Grid>
+        <Grid item></Grid>
+      </Grid>
       <Grid
         container
         spacing={3}

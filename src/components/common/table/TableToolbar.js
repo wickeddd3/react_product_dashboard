@@ -9,14 +9,7 @@ import { alpha } from '@mui/material/styles';
 import TableSearch from '../table/TableSearch';
 
 export default function TableToolbar(props) {
-  const {
-    numSelected,
-    canSearch,
-    deleteItems,
-    deleteButtonTitle,
-    searchInput,
-    setSearchInput,
-  } = props;
+  const { numSelected, canSearch, deleteItems, deleteButtonTitle, searchInput, setSearchInput } = props;
 
   return (
     <Toolbar
