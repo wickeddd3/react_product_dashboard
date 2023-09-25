@@ -23,6 +23,7 @@ import Tooltip from '@mui/material/Tooltip';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { stableSort, getComparator } from '../utils/sort';
+import { filterArrayObject } from '../utils/filter';
 import CustomerForm from '../components/customers/CustomerForm';
 import DrawerContext from '../contexts/DrawerContext';
 import DialogContext from '../contexts/DialogContext';
@@ -39,6 +40,7 @@ export default function ProductsPage() {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [searchInput, setSearchInput] = useState('');
 
   const { setDrawer } = useContext(DrawerContext);
   const { setDialog } = useContext(DialogContext);
@@ -144,6 +146,8 @@ export default function ProductsPage() {
     [rows, order, orderBy, page, rowsPerPage]
   );
 
+  const filteredVisibleRows = useMemo(() => filterArrayObject(visibleRows, searchInput), [visibleRows, searchInput]);
+
   return (
     <Container
       maxWidth="lg"
@@ -152,7 +156,9 @@ export default function ProductsPage() {
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableToolbar
-            title="Customer"
+            canSearch={true}
+            searchInput={searchInput}
+            setSearchInput={(value) => setSearchInput(value)}
             addButtonTitle="Add Customer"
             deleteButtonTitle="Delete selected customers"
             numSelected={selected.length}
@@ -175,7 +181,7 @@ export default function ProductsPage() {
                 rowCount={rows.length}
               />
               <TableBody>
-                {visibleRows.map((row, index) => {
+                {filteredVisibleRows.map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
