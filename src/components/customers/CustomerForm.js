@@ -39,6 +39,7 @@ export default function CustomerForm({ close }) {
     <DrawerContent
       title={drawerTitle}
       buttonText={submitButtonText}
+      hasActionButtons={true}
       close={close}
       submit={handleSubmit}
     >

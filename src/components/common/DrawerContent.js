@@ -6,7 +6,26 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function DrawerContent({ children, title, buttonText, close, submit }) {
+function ActionButtons(props) {
+  const { buttonText, hasActionButtons, submit } = props;
+
+  if (!hasActionButtons) return null;
+
+  return (
+    <Button
+      type="submit"
+      fullWidth
+      variant="contained"
+      sx={{ mt: 3, mb: 2 }}
+      onClick={submit}
+    >
+      {buttonText}
+    </Button>
+  );
+}
+
+export default function DrawerContent(props) {
+  const { children, title, close } = props;
   return (
     <Container
       maxWidth="lg"
@@ -56,15 +75,7 @@ export default function DrawerContent({ children, title, buttonText, close, subm
           </Box>
           {children}
         </Box>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-          onClick={submit}
-        >
-          {buttonText}
-        </Button>
+        {ActionButtons(props)}
       </Box>
     </Container>
   );
