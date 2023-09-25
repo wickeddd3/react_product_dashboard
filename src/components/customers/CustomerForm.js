@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { nameValidation, emailValidation, contactValidation } from '../../utils/validation/form/customerFormValidation';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import DrawerContent from '../common/DrawerContent';
+import DrawerContent from '../common/drawer/DrawerContent';
 import FormTextField from '../common/form/FormTextField';
 import { useSnackbar } from 'notistack';
 

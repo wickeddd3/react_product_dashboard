@@ -2,7 +2,7 @@ import { RouterProvider } from 'react-router-dom';
 import router from './router';
 import './App.css';
 import DrawerProvider from './providers/DrawerProvider';
-import Drawer from './components/common/Drawer';
+import Drawer from './components/common/drawer/Drawer';
 import DialogProvider from './providers/DialogProvider';
 import Dialog from './components/common/Dialog';
 import { SnackbarProvider } from 'notistack';

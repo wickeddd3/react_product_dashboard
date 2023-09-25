@@ -1,8 +1,8 @@
 import { useContext, useCallback } from 'react';
-import DrawerContext from '../../contexts/DrawerContext';
+import DrawerContext from '../../../contexts/DrawerContext';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
-import DynamicComponent from './DynamicComponent';
+import DynamicComponent from '../DynamicComponent';
 
 export default function Drawer({ children, ...rest }) {
   const { drawer, setDrawer } = useContext(DrawerContext);
