@@ -4,7 +4,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined';
 import { alpha } from '@mui/material/styles';
 import TableSearch from '../table/TableSearch';
@@ -13,8 +12,6 @@ export default function TableToolbar(props) {
   const {
     numSelected,
     canSearch,
-    addButtonTitle,
-    addItem,
     deleteItems,
     deleteButtonTitle,
     searchInput,
@@ -67,14 +64,7 @@ export default function TableToolbar(props) {
               </IconButton>
             </Tooltip>
           ) : (
-            <Tooltip
-              title={addButtonTitle}
-              placement="left"
-            >
-              <IconButton onClick={addItem}>
-                <AddCircleOutlineIcon />
-              </IconButton>
-            </Tooltip>
+            ''
           )}
         </Grid>
       </Grid>
@@ -85,8 +75,6 @@ export default function TableToolbar(props) {
 TableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
   canSearch: PropTypes.bool.isRequired,
-  addButtonTitle: PropTypes.string.isRequired,
   deleteButtonTitle: PropTypes.string.isRequired,
-  addItem: PropTypes.func.isRequired,
   deleteItems: PropTypes.func.isRequired,
 };
