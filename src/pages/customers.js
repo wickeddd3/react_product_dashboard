@@ -34,7 +34,7 @@ import DialogContext from '../contexts/DialogContext';
 import { useSnackbar } from 'notistack';
 import Breadcrumb from '../components/common/Breadcrumb';
 
-export default function ProductsPage() {
+export default function CustomersPage() {
   const dispatch = useDispatch();
 
   const headCells = useSelector((state) => state.customers.headCells);
