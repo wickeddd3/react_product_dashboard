@@ -1,8 +1,9 @@
 import numeral from 'numeral';
 
-function formatPrice(value) {
+function formatPrice(value, formatValue) {
   const price = value || 0;
-  const formattedPrice = numeral(price).format('$0,0.00');
+  const format = formatValue || '$0,0.00';
+  const formattedPrice = numeral(price).format(format);
   return formattedPrice;
 }
 
