@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import Chart from '../components/dashboard/Chart.js';
 import Deposits from '../components/dashboard/Deposits.js';
 import Orders from '../components/dashboard/Orders.js';
-import Breadcrumb from '../components/common/Breadcrumb';
+import Breadcrumb from '../components/common/Breadcrumb.js';
 
 export default function DashboardPage() {
   return (
