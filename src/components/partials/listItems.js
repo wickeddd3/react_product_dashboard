@@ -22,7 +22,7 @@ export const mainListItems = (
     </ListItemButton>
     <ListItemButton
       component={Link}
-      to={'/'}
+      to={'/products'}
     >
       <ListItemIcon>
         <Inventory2OutlinedIcon />
