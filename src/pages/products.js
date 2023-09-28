@@ -1,6 +1,7 @@
 import { useState, useMemo, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteSelectedCustomers } from '../store/reducers/products';
+import { Link } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -147,7 +148,8 @@ export default function ProductsPage() {
         </Grid>
         <Grid item>
           <Button
-            component="label"
+            component={Link}
+            to={'/products/new-product'}
             variant="contained"
             color="primary"
             startIcon={<AddIcon />}
