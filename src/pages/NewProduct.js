@@ -22,11 +22,7 @@ export default function NewProductPage() {
   const categories = useSelector((state) => state.products.categories);
 
   const methods = useForm({
-    category: {
-      id: 4,
-      group: 'Clothing',
-      name: 'Pants',
-    },
+    category: '',
   });
 
   const handleSubmit = methods.handleSubmit((data) => {
@@ -196,7 +192,6 @@ export default function NewProductPage() {
                       <FormSelectField
                         {...categoryValidation}
                         items={categories}
-                        groupByProperty="group"
                         propertyValue="name"
                         showProperty="name"
                       />

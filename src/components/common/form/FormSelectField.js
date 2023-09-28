@@ -1,15 +1,11 @@
-import { useMemo } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
 import { AnimatePresence } from 'framer-motion';
 import { findInputError, isFormInvalid } from '../../../utils/validation/index';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
-import ListSubheader from '@mui/material/ListSubheader';
 import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
 import FormInputError from './FormInputError';
-import { groupBy } from './../../../utils/group';
 
 export default function FormSelectField(props) {
   const {
@@ -19,8 +15,7 @@ export default function FormSelectField(props) {
     size = 'small',
     validation,
     items,
-    groupByProperty,
-    // propertyValue,
+    propertyValue,
     showProperty,
   } = props;
 
@@ -31,8 +26,6 @@ export default function FormSelectField(props) {
 
   const inputErrors = findInputError(errors, name);
   const isInvalid = isFormInvalid(inputErrors);
-
-  const groupedItems = useMemo(() => groupBy(items, groupByProperty) || [], [items, groupByProperty]);
 
   return (
     <>
@@ -50,11 +43,7 @@ export default function FormSelectField(props) {
           name={name}
           control={control}
           rules={validation}
-          defaultValue={{
-            id: 4,
-            group: 'Clothing',
-            name: 'Pants',
-          }}
+          defaultValue=""
           render={({ field: { value, onChange } }) => (
             <Select
               id={id}
@@ -63,22 +52,14 @@ export default function FormSelectField(props) {
               value={value}
               onChange={onChange}
             >
-              {Object.keys(groupedItems).map((group) => (
-                <MenuList
-                  key={`group-${group}`}
-                  sx={{ p: 0 }}
+              {items.map((item) => (
+                <MenuItem
+                  key={`item-${item.id}`}
+                  value={item[propertyValue]}
+                  dense
                 >
-                  <ListSubheader sx={{ fontWeight: 'bold' }}>{group}</ListSubheader>
-                  {groupedItems[group].map((item) => (
-                    <MenuItem
-                      key={`item-${item.id}`}
-                      value={item}
-                      dense
-                    >
-                      {item[showProperty]}
-                    </MenuItem>
-                  ))}
-                </MenuList>
+                  {item[showProperty]}
+                </MenuItem>
               ))}
             </Select>
           )}
