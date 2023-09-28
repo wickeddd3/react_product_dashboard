@@ -75,7 +75,58 @@ const initialState = {
       publish: 'Draft',
     },
   ],
-  selectedCustomer: {},
+  categories: [
+    {
+      id: 1,
+      group: 'Shoe',
+      name: 'Sneaker',
+    },
+    {
+      id: 2,
+      group: 'Clothing',
+      name: 'Shirt',
+    },
+    {
+      id: 3,
+      group: 'Clothing',
+      name: 'Jacket',
+    },
+    {
+      id: 4,
+      group: 'Clothing',
+      name: 'Pants',
+    },
+    {
+      id: 5,
+      group: 'Accessories',
+      name: 'Watch',
+    },
+    {
+      id: 6,
+      group: 'Accessories',
+      name: 'Cap',
+    },
+    {
+      id: 7,
+      group: 'Accessories',
+      name: 'Wallet',
+    },
+    {
+      id: 8,
+      group: 'Clothing',
+      name: 'Short',
+    },
+    {
+      id: 9,
+      group: 'Shoe',
+      name: 'Sandals',
+    },
+    {
+      id: 10,
+      group: 'Shoe',
+      name: 'Formal',
+    },
+  ],
 };
 
 export const productsSlice = createSlice({
