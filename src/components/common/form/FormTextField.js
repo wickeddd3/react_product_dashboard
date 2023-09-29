@@ -5,7 +5,16 @@ import TextField from '@mui/material/TextField';
 import FormInputError from './FormInputError';
 
 export default function FormTextField(props) {
-  const { id = 'textField', name = 'textField', label = '', size = 'small', validation, value, setValue } = props;
+  const {
+    id = 'textField',
+    name = 'textField',
+    type = 'text',
+    label = '',
+    size = 'small',
+    validation,
+    value,
+    setValue,
+  } = props;
 
   const {
     register,
@@ -25,6 +34,7 @@ export default function FormTextField(props) {
         size={size}
         value={value}
         error={isInvalid}
+        type={type}
         onChange={(e) => setValue(e.target.value)}
         {...register(name, validation)}
       />
