@@ -96,11 +96,24 @@ export const categoryValidation = {
   name: 'category',
   label: 'Category',
   id: 'category',
-  placeholder: 'Enter category',
+  placeholder: 'Select category',
   validation: {
     required: {
       value: true,
       message: 'Category is required',
+    },
+  },
+};
+
+export const tagsValidation = {
+  name: 'tags',
+  label: 'Tags',
+  id: 'tags',
+  placeholder: 'Select tag',
+  validation: {
+    required: {
+      value: true,
+      message: 'Tags is required',
     },
   },
 };
