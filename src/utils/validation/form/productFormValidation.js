@@ -89,10 +89,6 @@ export const quantityValidation = {
       value: true,
       message: 'Quantity is required',
     },
-    maxLength: {
-      value: 30,
-      message: '30 characters max',
-    },
   },
 };
 
@@ -106,9 +102,33 @@ export const categoryValidation = {
       value: true,
       message: 'Category is required',
     },
-    maxLength: {
-      value: 30,
-      message: '30 characters max',
+  },
+};
+
+export const regularPriceValidation = {
+  name: 'regularPrice',
+  label: 'Regular Price',
+  type: 'number',
+  id: 'regularPrice',
+  placeholder: 'Enter Regular Price',
+  validation: {
+    required: {
+      value: true,
+      message: 'Regular Price is required',
+    },
+  },
+};
+
+export const salePriceValidation = {
+  name: 'salePriceValidation',
+  label: 'Sale Price',
+  type: 'number',
+  id: 'salePriceValidation',
+  placeholder: 'Sale Price',
+  validation: {
+    required: {
+      value: true,
+      message: 'Sale Price is required',
     },
   },
 };
