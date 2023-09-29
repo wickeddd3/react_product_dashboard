@@ -18,6 +18,7 @@ import {
   categoryValidation,
   regularPriceValidation,
   salePriceValidation,
+  tagsValidation,
 } from './../utils/validation/form/productFormValidation';
 
 export default function NewProductPage() {
@@ -155,22 +156,16 @@ export default function NewProductPage() {
                   sx={{ p: 2 }}
                 >
                   <Grid
-                    container
-                    spacing={2}
-                    sx={{ p: 2 }}
+                    item
+                    xs={6}
                   >
-                    <Grid
-                      item
-                      xs={6}
-                    >
-                      <FormTextField {...productCodeValidation} />
-                    </Grid>
-                    <Grid
-                      item
-                      xs={6}
-                    >
-                      <FormTextField {...productSkuValidation} />
-                    </Grid>
+                    <FormTextField {...productCodeValidation} />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={6}
+                  >
+                    <FormTextField {...productSkuValidation} />
                   </Grid>
                 </Grid>
                 <Grid
@@ -179,28 +174,34 @@ export default function NewProductPage() {
                   sx={{ p: 2 }}
                 >
                   <Grid
-                    container
-                    spacing={2}
-                    sx={{ p: 2 }}
+                    item
+                    xs={6}
                   >
-                    <Grid
-                      item
-                      xs={6}
-                    >
-                      <FormTextField {...quantityValidation} />
-                    </Grid>
-                    <Grid
-                      item
-                      xs={6}
-                    >
-                      <FormSelectField
-                        {...categoryValidation}
-                        items={categories}
-                        propertyValue="name"
-                        showProperty="name"
-                      />
-                    </Grid>
+                    <FormTextField {...quantityValidation} />
                   </Grid>
+                  <Grid
+                    item
+                    xs={6}
+                  >
+                    <FormSelectField
+                      {...categoryValidation}
+                      items={categories}
+                      propertyValue="name"
+                      showProperty="name"
+                    />
+                  </Grid>
+                </Grid>
+                <Grid
+                  container
+                  sx={{ p: 2 }}
+                >
+                  <FormSelectField
+                    {...tagsValidation}
+                    items={categories}
+                    propertyValue="name"
+                    showProperty="name"
+                    multiple={true}
+                  />
                 </Grid>
               </Paper>
             </Grid>
