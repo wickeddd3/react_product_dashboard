@@ -16,6 +16,8 @@ import {
   productSkuValidation,
   quantityValidation,
   categoryValidation,
+  regularPriceValidation,
+  salePriceValidation,
 } from './../utils/validation/form/productFormValidation';
 
 export default function NewProductPage() {
@@ -116,6 +118,8 @@ export default function NewProductPage() {
               </Paper>
             </Grid>
           </Grid>
+          {/* Details */}
+          {/* Properties */}
           <Grid
             container
             direction="row"
@@ -202,6 +206,58 @@ export default function NewProductPage() {
             </Grid>
           </Grid>
           {/* Properties */}
+          {/* Pricing */}
+          <Grid
+            container
+            direction="row"
+            justifyContent="space-between"
+            alignItems="start"
+            sx={{ mb: 2 }}
+          >
+            <Grid
+              item
+              xs={4}
+            >
+              <Typography
+                component="h6"
+                variant="h6"
+              >
+                Pricing
+              </Typography>
+              <Typography
+                component="h6"
+                variant="body2"
+              >
+                Price related inputs
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={8}
+            >
+              <Paper sx={{ width: '100%', mt: 2 }}>
+                <Grid
+                  container
+                  spacing={2}
+                  sx={{ p: 2 }}
+                >
+                  <Grid
+                    item
+                    xs={12}
+                  >
+                    <FormTextField {...regularPriceValidation} />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                  >
+                    <FormTextField {...salePriceValidation} />
+                  </Grid>
+                </Grid>
+              </Paper>
+            </Grid>
+          </Grid>
+          {/* Pricing */}
           <Grid
             container
             justifyContent={'end'}
