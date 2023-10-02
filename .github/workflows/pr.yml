@@ -116,15 +116,14 @@ jobs:
       - name: Set Azure Static Web App Configurations
         id: set-function-app-configs
         run: |
-          az functionapp config appsettings set --name ${{ needs.provision.outputs.staging_context }} \
-          --resource-group ${{ needs.provision.outputs.staging_context }} \
+          az functionapp config appsettings set --name ${{ needs.provision.outputs.pr_context }} \
+          --resource-group ${{ needs.provision.outputs.pr_context }} \
           # --settings @${{ env.FUNCTION_APP_SETINGS_FILE }}
           --settings "APP_SETTINGS_TEST=${{ env.APP_SETTINGS_TEST }}"
         shell: bash
     outputs:
       pr_context: ${{ needs.provision.outputs.pr_context }}
-      staging_context: ${{ needs.provision.outputs.staging_context }}
-      staging_link: ${{ needs.provision.outputs.staging_link }}
+      staging_link: ${{ needs.provision.outputs.pr_link }}
 
   deploy:
     needs: configure
