@@ -1,0 +1,195 @@
+name: az-static-web-deploy-pr
+run-name: |
+  Deploy PR-${{ github.event.pull_request.number || github.event.issue.number || github.head_ref }}
+  to Azure Static Web App PR by @${{ github.actor }}
+
+on:
+  pull_request:
+    branches:
+      - '*'
+
+env:
+  BUILD_PR_NUMBER: ${{ github.event.pull_request.number || github.event.issue.number || github.head_ref }}
+  BUILD_REPOSITORY: ${{ github.event.repository.name || 'react-frontend-template'}}
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  DOTNET_VERSION: '6.0.x' # Adjust this version as needed
+  AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+  AZURE_REGION: ${{ vars.AZURE_CONSUMPTION_PLAN_LOCATION }}
+  AZURE_STATIC_WEB_APP_LOCATION: ${{ vars.AZURE_STATIC_WEB_APP_LOCATION }}
+  AZURE_STATIC_WEB_APP_SKU: ${{ vars.AZURE_STATIC_WEB_APP_SKU }}
+  # let's maintain standardized app settings variable names with KEY pattern: APP_SETTINGS<CONFIG_NAME>
+  APP_SETTINGS_TEST: 'Some Value'
+  
+jobs:
+  init:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR Number
+        run: |
+          echo Resolved PR Number: ${{ env.BUILD_PR_NUMBER }}
+        shell: bash
+      - name: Generate PR Context Name
+        id: generate-pr-context-name
+        run: |
+          pr_context_name="${{ env.BUILD_REPOSITORY }}-pr-${{ env.BUILD_PR_NUMBER }}"
+          echo "pr_context=$pr_context_name" >> "$GITHUB_OUTPUT"
+        shell: bash
+      - name: Check PR Context Name
+        run: |
+          echo Resolved PR Context Name: ${{ steps.generate-pr-context-name.outputs.pr_context }}
+    outputs:
+      pr_context: ${{ steps.generate-pr-context-name.outputs.pr_context }}
+
+  provision:
+    needs: init
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+          # allow-no-subscriptions: true
+      - name: Check PR Azure Resource Group
+        id: check-pr-resource-group
+        run: |
+          echo "Checking if Resource Group ${{ needs.init.outputs.pr_context }} exists ..."
+          az group show --name ${{ needs.init.outputs.pr_context }} \
+          --query "name" --output tsv \
+          || exit 1
+        continue-on-error: true
+        shell: bash
+      - name: Create PR Azure Resource Group
+        id: create-pr-resource-group
+        if: steps.check-pr-resource-group.outcome == 'failure'
+        run: |
+          echo "Creating PR Resource Group ${{ needs.init.outputs.pr_context }} ..."
+          az group create --name ${{ needs.init.outputs.pr_context }} \
+          --location ${{ env.AZURE_REGION }}
+        shell: bash
+      - name: Check PR Azure Static Web App
+        id: check-pr-static-web-app
+        run: |
+          echo "Checking if Static Web App ${{ needs.init.outputs.pr_context }} exists..."
+          az staticwebapp show --name ${{ needs.init.outputs.pr_context }} \
+          --resource-group ${{ needs.init.outputs.pr_context }} \
+          --query "name" --output tsv \
+          || exit 1
+        continue-on-error: true
+        shell: bash
+      - name: Create PR Azure Static Web App
+        id: create-pr-static-web-app
+        if: steps.check-pr-static-web-app.outcome == 'failure'
+        # see accepted args: https://learn.microsoft.com/en-us/cli/azure/functionapp?view=azure-cli-latest#az-functionapp-create()
+        run: |
+          echo "Creating PR Static Web App ${{ steps.needs.init.outputs.pr_context }} ..."
+          az staticwebapp create --name ${{ needs.init.outputs.pr_context }} \
+          --resource-group ${{ needs.init.outputs.pr_context }} \
+          --sku ${{ env.AZURE_STATIC_WEB_APP_SKU }}
+        shell: bash
+      - name: Set PR Base URL
+        id: set-pr-base-url 
+        run: |
+          base_url=$(az staticwebapp show --name ${{ needs.init.outputs.pr_context }} \
+          --resource-group ${{ needs.init.outputs.pr_context }} \
+          --query "defaultHostname" --output tsv)
+          echo "url=https://$base_url" >> $GITHUB_OUTPUT
+        shell: bash
+      - name: Check PR Base URL
+        run: |
+          echo PR Link: ${{ steps.set-pr-base-url.outputs.url }}
+        shell: bash
+    outputs:
+      pr_context: ${{ needs.init.outputs.pr_context }}
+      pr_link: ${{ steps.set-pr-base-url.outputs.url }}
+  
+  configure:
+    needs: provision
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.AZURE_CREDENTIALS }}
+          # allow-no-subscriptions: true
+      - name: Set Azure Static Web App Configurations
+        id: set-function-app-configs
+        run: |
+          az staticwebapp appsettings set --name ${{ needs.provision.outputs.pr_context }} \
+          --resource-group ${{ needs.provision.outputs.pr_context }} \
+          --setting-names APP_SETTINGS_TEST="${{ env.APP_SETTINGS_TEST }}"
+        shell: bash
+    outputs:
+      pr_context: ${{ needs.provision.outputs.pr_context }}
+      pr_link: ${{ needs.provision.outputs.pr_link }}
+
+  deploy:
+    needs: configure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          # TODO: check what's with cache?
+          # cache: npm
+      - name: Install Dependencies
+        run: |
+          npm install
+        shell: bash
+      - name: Build Web App
+        run: |
+          npm run build
+        shell: bash
+  #     # - name: Publish Static Web App
+  #     #   run: |
+  #     #     pwd
+  #     #     dotnet publish -c Release -o ./publish
+  #     #     ls -la publish
+  #     #     cd ./publish
+  #     #     pwd
+  #     #     zip -r publish.zip .
+  #     #     ls -la publish.zip
+  #     #   shell: bash
+  #     - name: Set up Azure CLI
+  #       uses: azure/login@v1
+  #       with:
+  #         creds: ${{ env.AZURE_CREDENTIALS }}
+  #     - name: Deploy Azure Functions
+  #       run: |
+  #         pwd
+  #         ls -la publish
+  #         cd publish
+  #         ls -la publish.zip
+  #         az functionapp deployment source config-zip --name ${{ needs.configure.outputs.pr_context }} \
+  #         --resource-group ${{ needs.configure.outputs.pr_context }} \
+  #         --src ./publish.zip
+  #       shell: bash
+    outputs:
+      pr_context: ${{ needs.configure.outputs.pr_context }}
+      pr_link: ${{ needs.configure.outputs.pr_link }}
+  
+  notify:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add PR Link Comment
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const comment = `
+              PR Azure Resource Group: ${{ needs.deploy.outputs.pr_context }} 
+              PR Link: ${{ needs.deploy.outputs.pr_link }}
+            `;
+            console.log(comment);
+            const { data } = await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment,
+            });
+            console.log(data.html_url);
