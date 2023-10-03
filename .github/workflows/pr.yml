@@ -118,8 +118,7 @@ jobs:
         run: |
           az staticwebapp appsettings set --name ${{ needs.provision.outputs.pr_context }} \
           --resource-group ${{ needs.provision.outputs.pr_context }} \
-          # --settings @${{ env.FUNCTION_APP_SETINGS_FILE }}
-          --setting-names "APP_SETTINGS_TEST=${{ env.APP_SETTINGS_TEST }}"
+          --setting-names APP_SETTINGS_TEST="${{ env.APP_SETTINGS_TEST }}"
         shell: bash
     outputs:
       pr_context: ${{ needs.provision.outputs.pr_context }}
