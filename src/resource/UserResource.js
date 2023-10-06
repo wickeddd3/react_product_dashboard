@@ -5,25 +5,25 @@ export default class CustomerResource extends BaseResource {
     super({ url: '/api/users' });
   }
 
-  async list() {
+  list() {
     return super.get();
   }
 
-  async create(data) {
+  create(data) {
     return super
       .post(data)
       .then((response) => response)
       .catch((error) => error.response);
   }
 
-  async update(id, data) {
+  update(id, data) {
     return super
       .put(data, { url: `${this.url}/${id}` })
       .then((response) => response)
       .catch((error) => error.response);
   }
 
-  async delete(id) {
+  delete(id) {
     return super
       .delete({ url: `${this.url}/${id}` })
       .then((response) => response)
