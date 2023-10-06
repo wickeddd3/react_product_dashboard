@@ -5,7 +5,7 @@ export default class AuthResource extends BaseResource {
     super({ url: '/api/users' });
   }
 
-  async get() {
+  get() {
     return super.get({ url: `${this.url}/current` });
   }
 }
