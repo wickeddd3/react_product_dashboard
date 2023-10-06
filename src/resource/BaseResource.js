@@ -18,6 +18,7 @@ export default class BaseResource {
         const error = response;
         if (error.status === 401) {
           localStorage.removeItem('react_product_dashboard.accessToken');
+          window.location = '/login';
         }
         return error;
       }
