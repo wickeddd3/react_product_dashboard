@@ -4,6 +4,7 @@ import Dashboard from '../pages/Dashboard.js';
 import Customers from '../pages/Customers.js';
 import Products from '../pages/Products.js';
 import NewProduct from '../pages/NewProduct.js';
+import Login from '../pages/Login.js';
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
         element: <NewProduct />,
       },
     ],
+  },
+  {
+    path: '/login',
+    element: <Login />,
   },
 ]);
 
