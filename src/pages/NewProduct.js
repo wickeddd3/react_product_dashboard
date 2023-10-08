@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import DefaultLayout from './../components/layouts/DefaultLayout';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -33,247 +34,249 @@ export default function NewProductPage() {
   });
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={{ mt: 4, mb: 4 }}
-    >
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="start"
-        sx={{ mb: 2 }}
+    <DefaultLayout>
+      <Container
+        maxWidth="lg"
+        sx={{ mt: 4, mb: 4 }}
       >
-        <Grid item>
-          <Grid
-            container
-            direction="column"
-            spacing={2}
-            sx={{ mb: 2 }}
-          >
-            <Grid item>
-              <Typography
-                component="h5"
-                variant="h5"
-              >
-                Create a new product
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Breadcrumb />
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="start"
+          sx={{ mb: 2 }}
+        >
+          <Grid item>
+            <Grid
+              container
+              direction="column"
+              spacing={2}
+              sx={{ mb: 2 }}
+            >
+              <Grid item>
+                <Typography
+                  component="h5"
+                  variant="h5"
+                >
+                  Create a new product
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Breadcrumb />
+              </Grid>
             </Grid>
           </Grid>
+          <Grid item></Grid>
         </Grid>
-        <Grid item></Grid>
-      </Grid>
-      <Box sx={{ width: '100%' }}>
-        <FormProvider {...methods}>
-          {/* Details */}
-          <Grid
-            container
-            direction="row"
-            justifyContent="space-between"
-            alignItems="start"
-            sx={{ mb: 2 }}
-          >
+        <Box sx={{ width: '100%' }}>
+          <FormProvider {...methods}>
+            {/* Details */}
             <Grid
-              item
-              xs={4}
+              container
+              direction="row"
+              justifyContent="space-between"
+              alignItems="start"
+              sx={{ mb: 2 }}
             >
-              <Typography
-                component="h6"
-                variant="h6"
+              <Grid
+                item
+                xs={4}
               >
-                Details
-              </Typography>
-              <Typography
-                component="h6"
-                variant="body2"
-              >
-                Title, short description...
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={8}
-            >
-              <Paper sx={{ width: '100%', mt: 2 }}>
-                <Grid
-                  container
-                  spacing={2}
-                  sx={{ p: 2 }}
+                <Typography
+                  component="h6"
+                  variant="h6"
                 >
-                  <Grid
-                    item
-                    xs={12}
-                  >
-                    <FormTextField {...productNameValidation} />
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                  >
-                    <FormTextField {...subDescriptionValidation} />
-                  </Grid>
-                </Grid>
-              </Paper>
-            </Grid>
-          </Grid>
-          {/* Details */}
-          {/* Properties */}
-          <Grid
-            container
-            direction="row"
-            justifyContent="space-between"
-            alignItems="start"
-            sx={{ mb: 2 }}
-          >
-            <Grid
-              item
-              xs={4}
-            >
-              <Typography
-                component="h6"
-                variant="h6"
-              >
-                Properties
-              </Typography>
-              <Typography
-                component="h6"
-                variant="body2"
-              >
-                Additional functions and attributes...
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={8}
-            >
-              <Paper sx={{ width: '100%', mt: 2 }}>
-                <Grid
-                  container
-                  spacing={2}
-                  sx={{ p: 2 }}
+                  Details
+                </Typography>
+                <Typography
+                  component="h6"
+                  variant="body2"
                 >
+                  Title, short description...
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                xs={8}
+              >
+                <Paper sx={{ width: '100%', mt: 2 }}>
                   <Grid
-                    item
-                    xs={6}
+                    container
+                    spacing={2}
+                    sx={{ p: 2 }}
                   >
-                    <FormTextField {...productCodeValidation} />
+                    <Grid
+                      item
+                      xs={12}
+                    >
+                      <FormTextField {...productNameValidation} />
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                    >
+                      <FormTextField {...subDescriptionValidation} />
+                    </Grid>
                   </Grid>
-                  <Grid
-                    item
-                    xs={6}
-                  >
-                    <FormTextField {...productSkuValidation} />
-                  </Grid>
-                </Grid>
-                <Grid
-                  container
-                  spacing={2}
-                  sx={{ p: 2 }}
+                </Paper>
+              </Grid>
+            </Grid>
+            {/* Details */}
+            {/* Properties */}
+            <Grid
+              container
+              direction="row"
+              justifyContent="space-between"
+              alignItems="start"
+              sx={{ mb: 2 }}
+            >
+              <Grid
+                item
+                xs={4}
+              >
+                <Typography
+                  component="h6"
+                  variant="h6"
                 >
+                  Properties
+                </Typography>
+                <Typography
+                  component="h6"
+                  variant="body2"
+                >
+                  Additional functions and attributes...
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                xs={8}
+              >
+                <Paper sx={{ width: '100%', mt: 2 }}>
                   <Grid
-                    item
-                    xs={6}
+                    container
+                    spacing={2}
+                    sx={{ p: 2 }}
                   >
-                    <FormTextField {...quantityValidation} />
+                    <Grid
+                      item
+                      xs={6}
+                    >
+                      <FormTextField {...productCodeValidation} />
+                    </Grid>
+                    <Grid
+                      item
+                      xs={6}
+                    >
+                      <FormTextField {...productSkuValidation} />
+                    </Grid>
                   </Grid>
                   <Grid
-                    item
-                    xs={6}
+                    container
+                    spacing={2}
+                    sx={{ p: 2 }}
+                  >
+                    <Grid
+                      item
+                      xs={6}
+                    >
+                      <FormTextField {...quantityValidation} />
+                    </Grid>
+                    <Grid
+                      item
+                      xs={6}
+                    >
+                      <FormSelectField
+                        {...categoryValidation}
+                        items={categories}
+                        propertyValue="name"
+                        showProperty="name"
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    container
+                    sx={{ p: 2 }}
                   >
                     <FormSelectField
-                      {...categoryValidation}
+                      {...tagsValidation}
                       items={categories}
                       propertyValue="name"
                       showProperty="name"
+                      multiple={true}
                     />
                   </Grid>
-                </Grid>
-                <Grid
-                  container
-                  sx={{ p: 2 }}
-                >
-                  <FormSelectField
-                    {...tagsValidation}
-                    items={categories}
-                    propertyValue="name"
-                    showProperty="name"
-                    multiple={true}
-                  />
-                </Grid>
-              </Paper>
+                </Paper>
+              </Grid>
             </Grid>
-          </Grid>
-          {/* Properties */}
-          {/* Pricing */}
-          <Grid
-            container
-            direction="row"
-            justifyContent="space-between"
-            alignItems="start"
-            sx={{ mb: 2 }}
-          >
+            {/* Properties */}
+            {/* Pricing */}
             <Grid
-              item
-              xs={4}
+              container
+              direction="row"
+              justifyContent="space-between"
+              alignItems="start"
+              sx={{ mb: 2 }}
             >
-              <Typography
-                component="h6"
-                variant="h6"
+              <Grid
+                item
+                xs={4}
               >
-                Pricing
-              </Typography>
-              <Typography
-                component="h6"
-                variant="body2"
-              >
-                Price related inputs
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={8}
-            >
-              <Paper sx={{ width: '100%', mt: 2 }}>
-                <Grid
-                  container
-                  spacing={2}
-                  sx={{ p: 2 }}
+                <Typography
+                  component="h6"
+                  variant="h6"
                 >
+                  Pricing
+                </Typography>
+                <Typography
+                  component="h6"
+                  variant="body2"
+                >
+                  Price related inputs
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                xs={8}
+              >
+                <Paper sx={{ width: '100%', mt: 2 }}>
                   <Grid
-                    item
-                    xs={12}
+                    container
+                    spacing={2}
+                    sx={{ p: 2 }}
                   >
-                    <FormTextField {...regularPriceValidation} />
+                    <Grid
+                      item
+                      xs={12}
+                    >
+                      <FormTextField {...regularPriceValidation} />
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                    >
+                      <FormTextField {...salePriceValidation} />
+                    </Grid>
                   </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                  >
-                    <FormTextField {...salePriceValidation} />
-                  </Grid>
-                </Grid>
-              </Paper>
+                </Paper>
+              </Grid>
             </Grid>
-          </Grid>
-          {/* Pricing */}
-          <Grid
-            container
-            justifyContent={'end'}
-            sx={{ py: 2 }}
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleSubmit}
+            {/* Pricing */}
+            <Grid
+              container
+              justifyContent={'end'}
+              sx={{ py: 2 }}
             >
-              Create product
-            </Button>
-          </Grid>
-        </FormProvider>
-      </Box>
-    </Container>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+              >
+                Create product
+              </Button>
+            </Grid>
+          </FormProvider>
+        </Box>
+      </Container>
+    </DefaultLayout>
   );
 }

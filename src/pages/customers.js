@@ -6,6 +6,7 @@ import {
   deleteCustomer,
   deleteSelectedCustomers,
 } from '../store/reducers/customers';
+import DefaultLayout from './../components/layouts/DefaultLayout';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -154,161 +155,163 @@ export default function CustomersPage() {
   const filteredVisibleRows = useMemo(() => filterArrayObject(visibleRows, searchInput), [visibleRows, searchInput]);
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={{ mt: 4, mb: 4 }}
-    >
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        sx={{ mb: 2 }}
+    <DefaultLayout>
+      <Container
+        maxWidth="lg"
+        sx={{ mt: 4, mb: 4 }}
       >
-        <Grid item>
-          <Grid
-            container
-            direction="column"
-            spacing={2}
-            sx={{ mb: 2 }}
-          >
-            <Grid item>
-              <Typography
-                component="h6"
-                variant="h6"
-              >
-                List of customers
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Breadcrumb />
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ mb: 2 }}
+        >
+          <Grid item>
+            <Grid
+              container
+              direction="column"
+              spacing={2}
+              sx={{ mb: 2 }}
+            >
+              <Grid item>
+                <Typography
+                  component="h6"
+                  variant="h6"
+                >
+                  List of customers
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Breadcrumb />
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item>
-          <Button
-            component="label"
-            variant="contained"
-            color="primary"
-            startIcon={<AddIcon />}
-            onClick={() => handleAddCustomer()}
-          >
-            Add new customer
-          </Button>
-        </Grid>
-      </Grid>
-      <Box sx={{ width: '100%' }}>
-        <Paper sx={{ width: '100%', mb: 2 }}>
-          <TableToolbar
-            canSearch={true}
-            searchInput={searchInput}
-            setSearchInput={(value) => setSearchInput(value)}
-            deleteButtonTitle="Delete selected customers"
-            numSelected={selected.length}
-            deleteItems={() => handleDeleteSelectedCustomers()}
-          />
-          <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size={'medium'}
+          <Grid item>
+            <Button
+              component="label"
+              variant="contained"
+              color="primary"
+              startIcon={<AddIcon />}
+              onClick={() => handleAddCustomer()}
             >
-              <TableHeader
-                headCells={headCells}
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                rowCount={rows.length}
-              />
-              <TableBody>
-                {filteredVisibleRows.map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+              Add new customer
+            </Button>
+          </Grid>
+        </Grid>
+        <Box sx={{ width: '100%' }}>
+          <Paper sx={{ width: '100%', mb: 2 }}>
+            <TableToolbar
+              canSearch={true}
+              searchInput={searchInput}
+              setSearchInput={(value) => setSearchInput(value)}
+              deleteButtonTitle="Delete selected customers"
+              numSelected={selected.length}
+              deleteItems={() => handleDeleteSelectedCustomers()}
+            />
+            <TableContainer>
+              <Table
+                sx={{ minWidth: 750 }}
+                aria-labelledby="tableTitle"
+                size={'medium'}
+              >
+                <TableHeader
+                  headCells={headCells}
+                  numSelected={selected.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onSelectAllClick={handleSelectAllClick}
+                  onRequestSort={handleRequestSort}
+                  rowCount={rows.length}
+                />
+                <TableBody>
+                  {filteredVisibleRows.map((row, index) => {
+                    const isItemSelected = isSelected(row.id);
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
+                    return (
+                      <TableRow
+                        hover
+                        onClick={(event) => handleClick(event, row)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.name}
+                        selected={isItemSelected}
+                        sx={{ cursor: 'pointer' }}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            color="primary"
+                            checked={isItemSelected}
+                            inputProps={{
+                              'aria-labelledby': labelId,
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                        >
+                          {row.name}
+                        </TableCell>
+                        <TableCell padding="none">{row.email}</TableCell>
+                        <TableCell
+                          padding="none"
+                          align="center"
+                        >
+                          {row.contact}
+                        </TableCell>
+                        <TableCell
+                          padding="none"
+                          align="center"
+                        >
+                          <Tooltip
+                            title="Edit Customer"
+                            placement="left"
+                          >
+                            <IconButton onClick={(event) => handleEditCustomer({ row, event })}>
+                              <ModeEditOutlineOutlinedIcon />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip
+                            title="Delete Customer"
+                            placement="left"
+                          >
+                            <IconButton onClick={(event) => handleDeleteCustomer({ row, event })}>
+                              <DeleteOutlineOutlinedIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                  {emptyRows > 0 && (
                     <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.name}
-                      selected={isItemSelected}
-                      sx={{ cursor: 'pointer' }}
+                      style={{
+                        height: 53 * emptyRows,
+                      }}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.name}
-                      </TableCell>
-                      <TableCell padding="none">{row.email}</TableCell>
-                      <TableCell
-                        padding="none"
-                        align="center"
-                      >
-                        {row.contact}
-                      </TableCell>
-                      <TableCell
-                        padding="none"
-                        align="center"
-                      >
-                        <Tooltip
-                          title="Edit Customer"
-                          placement="left"
-                        >
-                          <IconButton onClick={(event) => handleEditCustomer({ row, event })}>
-                            <ModeEditOutlineOutlinedIcon />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip
-                          title="Delete Customer"
-                          placement="left"
-                        >
-                          <IconButton onClick={(event) => handleDeleteCustomer({ row, event })}>
-                            <DeleteOutlineOutlinedIcon />
-                          </IconButton>
-                        </Tooltip>
-                      </TableCell>
+                      <TableCell colSpan={6} />
                     </TableRow>
-                  );
-                })}
-                {emptyRows > 0 && (
-                  <TableRow
-                    style={{
-                      height: 53 * emptyRows,
-                    }}
-                  >
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 15, 25]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper>
-      </Box>
-    </Container>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 15, 25]}
+              component="div"
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
+        </Box>
+      </Container>
+    </DefaultLayout>
   );
 }

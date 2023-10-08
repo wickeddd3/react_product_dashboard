@@ -2,6 +2,7 @@ import { useState, useMemo, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteSelectedCustomers } from '../store/reducers/products';
 import { Link } from 'react-router-dom';
+import DefaultLayout from './../components/layouts/DefaultLayout';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -115,192 +116,194 @@ export default function ProductsPage() {
   const filteredVisibleRows = useMemo(() => filterArrayObject(visibleRows, searchInput), [visibleRows, searchInput]);
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={{ mt: 4, mb: 4 }}
-    >
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        sx={{ mb: 2 }}
+    <DefaultLayout>
+      <Container
+        maxWidth="lg"
+        sx={{ mt: 4, mb: 4 }}
       >
-        <Grid item>
-          <Grid
-            container
-            direction="column"
-            spacing={2}
-            sx={{ mb: 2 }}
-          >
-            <Grid item>
-              <Typography
-                component="h6"
-                variant="h6"
-              >
-                List of products
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Breadcrumb />
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ mb: 2 }}
+        >
+          <Grid item>
+            <Grid
+              container
+              direction="column"
+              spacing={2}
+              sx={{ mb: 2 }}
+            >
+              <Grid item>
+                <Typography
+                  component="h6"
+                  variant="h6"
+                >
+                  List of products
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Breadcrumb />
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item>
-          <Button
-            component={Link}
-            to={'/products/new-product'}
-            variant="contained"
-            color="primary"
-            startIcon={<AddIcon />}
-          >
-            Add new product
-          </Button>
-        </Grid>
-      </Grid>
-      <Box sx={{ width: '100%' }}>
-        <Paper sx={{ width: '100%', mb: 2 }}>
-          <TableToolbar
-            canSearch={true}
-            searchInput={searchInput}
-            setSearchInput={(value) => setSearchInput(value)}
-            deleteButtonTitle="Delete selected customers"
-            numSelected={selected.length}
-            deleteItems={() => handleDeleteSelectedCustomers()}
-          />
-          <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size={'medium'}
+          <Grid item>
+            <Button
+              component={Link}
+              to={'/products/new-product'}
+              variant="contained"
+              color="primary"
+              startIcon={<AddIcon />}
             >
-              <TableHeader
-                headCells={headCells}
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                rowCount={rows.length}
-              />
-              <TableBody>
-                {filteredVisibleRows.map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+              Add new product
+            </Button>
+          </Grid>
+        </Grid>
+        <Box sx={{ width: '100%' }}>
+          <Paper sx={{ width: '100%', mb: 2 }}>
+            <TableToolbar
+              canSearch={true}
+              searchInput={searchInput}
+              setSearchInput={(value) => setSearchInput(value)}
+              deleteButtonTitle="Delete selected customers"
+              numSelected={selected.length}
+              deleteItems={() => handleDeleteSelectedCustomers()}
+            />
+            <TableContainer>
+              <Table
+                sx={{ minWidth: 750 }}
+                aria-labelledby="tableTitle"
+                size={'medium'}
+              >
+                <TableHeader
+                  headCells={headCells}
+                  numSelected={selected.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onSelectAllClick={handleSelectAllClick}
+                  onRequestSort={handleRequestSort}
+                  rowCount={rows.length}
+                />
+                <TableBody>
+                  {filteredVisibleRows.map((row, index) => {
+                    const isItemSelected = isSelected(row.id);
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                      sx={{ cursor: 'pointer' }}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
+                    return (
+                      <TableRow
+                        hover
+                        onClick={(event) => handleClick(event, row)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.id}
+                        selected={isItemSelected}
+                        sx={{ cursor: 'pointer' }}
                       >
-                        <div style={{ display: 'flex', padding: '10px 10px' }}>
-                          <img
-                            srcSet={`https://images.unsplash.com/photo-1522770179533-24471fcdba45?w=248&fit=crop&auto=format&dpr=2 2x`}
-                            src={`https://images.unsplash.com/photo-1522770179533-24471fcdba45?w=248&fit=crop&auto=format`}
-                            alt={row.product}
-                            loading="lazy"
-                            style={{ width: '70px', height: '60px', borderRadius: '10px' }}
-                          />
-                          <div
-                            style={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              justifyContent: 'center',
-                              padding: '0 12px',
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            color="primary"
+                            checked={isItemSelected}
+                            inputProps={{
+                              'aria-labelledby': labelId,
                             }}
-                          >
-                            <Typography
-                              component="h5"
-                              variant="body2"
-                              style={{ fontWeight: 'bold' }}
-                            >
-                              {row.product}
-                            </Typography>
-                            <Typography
-                              component="h6"
-                              variant="caption"
-                            >
-                              {row.category}
-                            </Typography>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell align="right">{formatPrice(row.price)}</TableCell>
-                      <TableCell align="center">
-                        <LinearProgress
-                          variant="determinate"
-                          value={row.stock * 1}
-                        />
-                      </TableCell>
-                      <TableCell
-                        padding="none"
-                        align="center"
-                      >
-                        <Chip
-                          label={row.publish}
-                          size="small"
-                        />
-                      </TableCell>
-                      <TableCell
-                        padding="none"
-                        align="center"
-                      >
-                        <Tooltip
-                          title="Actions"
-                          placement="left"
+                          />
+                        </TableCell>
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
                         >
-                          <IconButton>
-                            <MoreVertIcon />
-                          </IconButton>
-                        </Tooltip>
-                      </TableCell>
+                          <div style={{ display: 'flex', padding: '10px 10px' }}>
+                            <img
+                              srcSet={`https://images.unsplash.com/photo-1522770179533-24471fcdba45?w=248&fit=crop&auto=format&dpr=2 2x`}
+                              src={`https://images.unsplash.com/photo-1522770179533-24471fcdba45?w=248&fit=crop&auto=format`}
+                              alt={row.product}
+                              loading="lazy"
+                              style={{ width: '70px', height: '60px', borderRadius: '10px' }}
+                            />
+                            <div
+                              style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                padding: '0 12px',
+                              }}
+                            >
+                              <Typography
+                                component="h5"
+                                variant="body2"
+                                style={{ fontWeight: 'bold' }}
+                              >
+                                {row.product}
+                              </Typography>
+                              <Typography
+                                component="h6"
+                                variant="caption"
+                              >
+                                {row.category}
+                              </Typography>
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell align="right">{formatPrice(row.price)}</TableCell>
+                        <TableCell align="center">
+                          <LinearProgress
+                            variant="determinate"
+                            value={row.stock * 1}
+                          />
+                        </TableCell>
+                        <TableCell
+                          padding="none"
+                          align="center"
+                        >
+                          <Chip
+                            label={row.publish}
+                            size="small"
+                          />
+                        </TableCell>
+                        <TableCell
+                          padding="none"
+                          align="center"
+                        >
+                          <Tooltip
+                            title="Actions"
+                            placement="left"
+                          >
+                            <IconButton>
+                              <MoreVertIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                  {emptyRows > 0 && (
+                    <TableRow
+                      style={{
+                        height: 53 * emptyRows,
+                      }}
+                    >
+                      <TableCell colSpan={6} />
                     </TableRow>
-                  );
-                })}
-                {emptyRows > 0 && (
-                  <TableRow
-                    style={{
-                      height: 53 * emptyRows,
-                    }}
-                  >
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 15, 25]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper>
-      </Box>
-    </Container>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 15, 25]}
+              component="div"
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
+        </Box>
+      </Container>
+    </DefaultLayout>
   );
 }

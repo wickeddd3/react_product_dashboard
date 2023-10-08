@@ -1,4 +1,4 @@
-import * as React from 'react';
+import DefaultLayout from './../components/layouts/DefaultLayout';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -9,72 +9,74 @@ import Breadcrumb from '../components/common/Breadcrumb.js';
 
 export default function DashboardPage() {
   return (
-    <Container
-      maxWidth="lg"
-      sx={{ mt: 4, mb: 4 }}
-    >
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        sx={{ mb: 2 }}
+    <DefaultLayout>
+      <Container
+        maxWidth="lg"
+        sx={{ mt: 4, mb: 4 }}
       >
-        <Grid item>
-          <Breadcrumb />
-        </Grid>
-        <Grid item></Grid>
-      </Grid>
-      <Grid
-        container
-        spacing={3}
-      >
-        {/* Chart */}
         <Grid
-          item
-          xs={12}
-          md={8}
-          lg={9}
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ mb: 2 }}
         >
-          <Paper
-            sx={{
-              p: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              height: 240,
-            }}
+          <Grid item>
+            <Breadcrumb />
+          </Grid>
+          <Grid item></Grid>
+        </Grid>
+        <Grid
+          container
+          spacing={3}
+        >
+          {/* Chart */}
+          <Grid
+            item
+            xs={12}
+            md={8}
+            lg={9}
           >
-            <Chart />
-          </Paper>
-        </Grid>
-        {/* Recent Deposits */}
-        <Grid
-          item
-          xs={12}
-          md={4}
-          lg={3}
-        >
-          <Paper
-            sx={{
-              p: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              height: 240,
-            }}
+            <Paper
+              sx={{
+                p: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                height: 240,
+              }}
+            >
+              <Chart />
+            </Paper>
+          </Grid>
+          {/* Recent Deposits */}
+          <Grid
+            item
+            xs={12}
+            md={4}
+            lg={3}
           >
-            <Deposits />
-          </Paper>
+            <Paper
+              sx={{
+                p: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                height: 240,
+              }}
+            >
+              <Deposits />
+            </Paper>
+          </Grid>
+          {/* Recent Orders */}
+          <Grid
+            item
+            xs={12}
+          >
+            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+              <Orders />
+            </Paper>
+          </Grid>
         </Grid>
-        {/* Recent Orders */}
-        <Grid
-          item
-          xs={12}
-        >
-          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-            <Orders />
-          </Paper>
-        </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </DefaultLayout>
   );
 }
