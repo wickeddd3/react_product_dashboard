@@ -2,14 +2,14 @@ import axios from 'axios';
 
 export default class BaseResource {
   constructor({ url = '', config = {} }) {
-    const baseUrl = process.env.REACT_APP_BASE_URL;
+    const baseURL = process.env.REACT_APP_BASE_URL;
     const headers = {
       Accept: 'application/json',
       Authorization: `Bearer ${localStorage.getItem('react_product_dashboard.accessToken') ?? ''}`,
     };
     this.http = axios.create({
       ...config,
-      baseUrl,
+      baseURL,
       headers,
     });
     this.http.interceptors.response.use(
