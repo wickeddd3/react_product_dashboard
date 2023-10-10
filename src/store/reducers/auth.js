@@ -3,7 +3,6 @@ import LoginResource from '../../resource/LoginResource';
 import AuthResource from '../../resource/AuthResource';
 
 const loginResource = new LoginResource();
-const authResource = new AuthResource();
 
 const initialState = {
   info: {
@@ -47,6 +46,7 @@ export const login = createAsyncThunk('auth/login', async (initialData) => {
 });
 
 export const current = createAsyncThunk('auth/current', async () => {
+  const authResource = new AuthResource();
   const response = await authResource.get();
   return response.data;
 });
