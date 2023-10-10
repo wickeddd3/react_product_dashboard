@@ -3,9 +3,10 @@ import axios from 'axios';
 export default class BaseResource {
   constructor({ url = '', config = {} }) {
     const baseURL = process.env.REACT_APP_BASE_URL;
+    const token = localStorage.getItem('react_product_dashboard.accessToken');
     const headers = {
       Accept: 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('react_product_dashboard.accessToken') ?? ''}`,
+      Authorization: `Bearer ${token ?? ''}`,
     };
     this.http = axios.create({
       ...config,
@@ -17,7 +18,7 @@ export default class BaseResource {
       async ({ response }) => {
         const error = response;
         if (error.status === 401) {
-          localStorage.removeItem('react_product_dashboard.accessToken');
+          window.localStorage.removeItem('react_product_dashboard.accessToken');
           window.location = '/login';
         }
         return error;
