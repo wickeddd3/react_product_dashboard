@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export default class BaseResource {
   constructor({ url = '', config = {} }) {
+    // eslint-disable-next-line no-undef
     const baseURL = process.env.REACT_APP_BASE_URL;
     const token = localStorage.getItem('react_product_dashboard.accessToken');
     const headers = {
