@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -6,14 +7,20 @@ import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Appbar from '../partials/Appbar.js';
 import Sidebar from '../partials/Sidebar.js';
+import { current } from '../../store/reducers/auth.js';
 
 const defaultTheme = createTheme();
 
 export default function DefaultLayout({ children }) {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    dispatch(current());
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={defaultTheme}>
