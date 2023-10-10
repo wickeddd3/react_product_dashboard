@@ -32,6 +32,12 @@ export const authSlice = createSlice({
         if (user) {
           state.info = user;
         }
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.info = {
+          name: null,
+          email: null,
+        };
       });
   },
 });
@@ -49,4 +55,8 @@ export const current = createAsyncThunk('auth/current', async () => {
   const authResource = new AuthResource();
   const response = await authResource.get();
   return response.data;
+});
+
+export const logout = createAsyncThunk('auth/logout', async () => {
+  window.localStorage.removeItem('react_product_dashboard.accessToken');
 });
