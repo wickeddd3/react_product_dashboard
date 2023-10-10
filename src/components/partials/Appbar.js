@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import AuthAvatarMenu from './AuthAvatarMenu';
 
 const drawerWidth = 240;
 
@@ -59,7 +60,10 @@ export default function Appbar({ drawerState, toggleDrawer }) {
         >
           Dashboard
         </Typography>
-        <IconButton color="inherit">
+        <IconButton
+          color="inherit"
+          sx={{ mx: 1 }}
+        >
           <Badge
             badgeContent={4}
             color="secondary"
@@ -67,6 +71,7 @@ export default function Appbar({ drawerState, toggleDrawer }) {
             <NotificationsIcon />
           </Badge>
         </IconButton>
+        <AuthAvatarMenu />
       </Toolbar>
     </AppBar>
   );
