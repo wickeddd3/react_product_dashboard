@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { current } from '../../store/reducers/auth.js';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Appbar from '../partials/Appbar.js';
 import Sidebar from '../partials/Sidebar.js';
-import { current } from '../../store/reducers/auth.js';
 
 const defaultTheme = createTheme();
 
