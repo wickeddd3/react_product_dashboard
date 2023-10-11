@@ -19,7 +19,12 @@ export default function SidebarItem({ item, drawerState, toggleDrawer }) {
   let menuItem = null;
 
   if (item.type === 'item') {
-    menuItem = <MenuItem item={item} />;
+    menuItem = (
+      <MenuItem
+        item={item}
+        sx={!drawerState ? { pl: 2.8 } : null}
+      />
+    );
   }
 
   if (item.type === 'divider') {
@@ -44,6 +49,7 @@ export default function SidebarItem({ item, drawerState, toggleDrawer }) {
         open={drawerState ? open : false}
         drawerState={drawerState}
         handleClick={handleClick}
+        sx={!drawerState ? { pl: 2.8 } : null}
       />
     );
   }

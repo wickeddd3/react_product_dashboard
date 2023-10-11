@@ -42,11 +42,14 @@ export default function Sidebar({ drawerState, toggleDrawer }) {
         sx={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'flex-end',
+          justifyContent: drawerState ? 'flex-end' : 'flex-start',
           px: [1],
         }}
       >
-        <IconButton onClick={() => toggleDrawer()}>
+        <IconButton
+          sx={!drawerState ? { ml: 1 } : null}
+          onClick={() => toggleDrawer()}
+        >
           <ChevronLeftIcon />
         </IconButton>
       </Toolbar>

@@ -7,10 +7,13 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import MenuItem from './MenuItem';
 
-export default function SubMenu({ item, open, drawerState, handleClick }) {
+export default function SubMenu({ item, open, drawerState, handleClick, sx }) {
   return (
     <>
-      <ListItemButton onClick={handleClick}>
+      <ListItemButton
+        onClick={handleClick}
+        sx={sx}
+      >
         <ListItemIcon>{item.icon}</ListItemIcon>
         <ListItemText primary={item.title} />
         {open ? <ExpandLess /> : <ExpandMore />}
