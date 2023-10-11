@@ -6,8 +6,8 @@ import { current } from '../../store/reducers/auth.js';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
-import Appbar from '../partials/Appbar.js';
-import Sidebar from '../partials/Sidebar.js';
+import Appbar from '../partials/Appbar';
+import Sidebar from '../partials/Sidebar';
 
 const defaultTheme = createTheme();
 
