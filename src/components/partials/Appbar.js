@@ -58,7 +58,7 @@ export default function Appbar({ drawerState, toggleDrawer }) {
           noWrap
           sx={{ flexGrow: 1 }}
         >
-          Dashboard
+          Product Dashboard
         </Typography>
         <IconButton
           color="inherit"
