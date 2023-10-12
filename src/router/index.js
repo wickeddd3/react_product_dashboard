@@ -1,9 +1,8 @@
 import { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import pMinDelay from 'p-min-delay';
 import AuthGuard from './guards/AuthGuard';
 import GuestGuard from './guards/GuestGuard';
-const Dashboard = lazy(() => pMinDelay(import('../pages/Dashboard'), 1000));
+const Dashboard = lazy(() => import('../pages/Dashboard'));
 const Customers = lazy(() => import('../pages/Customers'));
 const Products = lazy(() => import('../pages/Products'));
 const NewProduct = lazy(() => import('../pages/NewProduct'));
