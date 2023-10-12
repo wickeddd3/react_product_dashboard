@@ -90,6 +90,15 @@ export default function LoginPage() {
           >
             Sign In
           </Button>
+
+          <Typography
+            variant="caption"
+            display="block"
+            gutterBottom
+          >
+            Email : johndoe@test.com <br />
+            Password : password123
+          </Typography>
         </Box>
       </Box>
     </Container>
