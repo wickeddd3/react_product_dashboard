@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import ProductResource from '../../resource/ProductResource';
 
 const initialState = {
   headCells: [
@@ -21,10 +22,10 @@ const initialState = {
       label: 'Stock',
     },
     {
-      id: 'publish',
+      id: 'availability',
       numeric: false,
       disablePadding: true,
-      label: 'Publish',
+      label: 'Availability',
     },
     {
       id: 'actions',
@@ -33,48 +34,7 @@ const initialState = {
       label: '',
     },
   ],
-  rows: [
-    {
-      id: 1,
-      category: 'Shoe',
-      product: 'Jordan 1 Black Toe',
-      price: '5100',
-      stock: '75',
-      publish: 'Published',
-    },
-    {
-      id: 2,
-      category: 'Shoe',
-      product: 'Travis Scott Reverse Mocha',
-      price: '120000',
-      stock: '95',
-      publish: 'Published',
-    },
-    {
-      id: 3,
-      category: 'Shoe',
-      product: 'Jordan 1 Black Toe',
-      price: '8000',
-      stock: '5',
-      publish: 'Published',
-    },
-    {
-      id: 4,
-      category: 'Shoe',
-      product: 'Jordan 1 Black Toe',
-      price: '11000',
-      stock: '10',
-      publish: 'Published',
-    },
-    {
-      id: 5,
-      category: 'Shoe',
-      product: 'Jordan 1 Black Toe',
-      price: '70000',
-      stock: '25',
-      publish: 'Draft',
-    },
-  ],
+  rows: [],
   categories: [
     {
       id: 1,
@@ -164,6 +124,21 @@ export const productsSlice = createSlice({
       state.rows = updatedRows;
     },
   },
+  extraReducers(builder) {
+    builder
+      .addCase(listProducts.fulfilled, (state, action) => {
+        const response = action.payload;
+        if (response) {
+          state.rows = action.payload;
+        }
+      })
+      .addCase(createProduct.fulfilled, (state, action) => {
+        const rows = [...state.rows];
+        const createdProduct = action.payload;
+        rows.push(createdProduct);
+        state.rows = rows;
+      });
+  },
 });
 
 export const {
@@ -176,3 +151,18 @@ export const {
 } = productsSlice.actions;
 
 export default productsSlice.reducer;
+
+export const listProducts = createAsyncThunk('products/listProducts', async (initialData) => {
+  const productResource = new ProductResource();
+  const { data, status } = await productResource.list(initialData);
+  if (status === 200) {
+    return data;
+  }
+  return null;
+});
+
+export const createProduct = createAsyncThunk('products/createProduct', async (initialData) => {
+  const productResource = new ProductResource();
+  const response = await productResource.create(initialData);
+  return response.data;
+});

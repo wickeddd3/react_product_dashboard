@@ -1,4 +1,6 @@
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import DefaultLayout from './../components/layouts/DefaultLayout';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -21,16 +23,38 @@ import {
   salePriceValidation,
   tagsValidation,
 } from './../utils/validation/form/productFormValidation';
+import { createProduct } from '../store/reducers/products';
+import { useSnackbar } from 'notistack';
 
 export default function NewProductPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const categories = useSelector((state) => state.products.categories);
-
+  const [productImage, setProductImage] = useState({ name: '', url: '' });
   const methods = useForm({
     category: '',
   });
 
+  const handleImageChange = (file) => {
+    const reader = (readFile) =>
+      new Promise((resolve) => {
+        const fileReader = new FileReader();
+        fileReader.onload = () => resolve(fileReader.result);
+        fileReader.readAsDataURL(readFile);
+      });
+
+    reader(file).then((result) => setProductImage({ name: file?.name, url: result }));
+  };
+
   const handleSubmit = methods.handleSubmit((data) => {
-    console.log(data);
+    const form = { ...data, image: productImage.url };
+    dispatch(createProduct(form))
+      .unwrap()
+      .then(() => {
+        navigate('/products');
+        enqueueSnackbar('Product has been successfully added.', { variant: 'success' });
+      });
   });
 
   return (
@@ -261,6 +285,61 @@ export default function NewProductPage() {
               </Grid>
             </Grid>
             {/* Pricing */}
+            {/* Image */}
+            <Grid
+              container
+              direction="row"
+              justifyContent="space-between"
+              alignItems="start"
+              sx={{ mb: 2 }}
+            >
+              <Grid
+                item
+                xs={4}
+              >
+                <Typography
+                  component="h6"
+                  variant="h6"
+                >
+                  Image
+                </Typography>
+                <Typography
+                  component="h6"
+                  variant="body2"
+                >
+                  Upload Image
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                xs={8}
+              >
+                <Paper sx={{ width: '100%', mt: 2, p: 2, display: 'flex', alignItems: 'center' }}>
+                  <Button
+                    component="label"
+                    sx={{ width: 'fit-content', textTransform: 'capitalize' }}
+                  >
+                    Choose Image
+                    <input
+                      hidden
+                      accept="image/*"
+                      type="file"
+                      onChange={(e) => {
+                        handleImageChange(e.target.files[0]);
+                      }}
+                    />
+                  </Button>
+                  <Typography
+                    fontSize={14}
+                    color="#808191"
+                    sx={{ wordBreak: 'break-all', px: 2 }}
+                  >
+                    {productImage?.name}
+                  </Typography>
+                </Paper>
+              </Grid>
+            </Grid>
+            {/* Image */}
             <Grid
               container
               justifyContent={'end'}

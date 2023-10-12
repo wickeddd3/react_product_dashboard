@@ -1,6 +1,6 @@
-import { useState, useMemo, useContext } from 'react';
+import { useState, useMemo, useContext, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteSelectedCustomers } from '../store/reducers/products';
+import { deleteSelectedCustomers, listProducts } from '../store/reducers/products';
 import { Link } from 'react-router-dom';
 import DefaultLayout from './../components/layouts/DefaultLayout';
 import Container from '@mui/material/Container';
@@ -115,6 +115,10 @@ export default function ProductsPage() {
 
   const filteredVisibleRows = useMemo(() => filterArrayObject(visibleRows, searchInput), [visibleRows, searchInput]);
 
+  useEffect(() => {
+    dispatch(listProducts());
+  }, [dispatch]);
+
   return (
     <DefaultLayout>
       <Container
@@ -197,7 +201,7 @@ export default function ProductsPage() {
                         role="checkbox"
                         aria-checked={isItemSelected}
                         tabIndex={-1}
-                        key={row.id}
+                        key={row._id}
                         selected={isItemSelected}
                         sx={{ cursor: 'pointer' }}
                       >
@@ -218,8 +222,8 @@ export default function ProductsPage() {
                         >
                           <div style={{ display: 'flex', padding: '10px 10px' }}>
                             <img
-                              srcSet={`https://images.unsplash.com/photo-1522770179533-24471fcdba45?w=248&fit=crop&auto=format&dpr=2 2x`}
-                              src={`https://images.unsplash.com/photo-1522770179533-24471fcdba45?w=248&fit=crop&auto=format`}
+                              srcSet={row.image}
+                              src={row.image}
                               alt={row.product}
                               loading="lazy"
                               style={{ width: '70px', height: '60px', borderRadius: '10px' }}
@@ -237,7 +241,7 @@ export default function ProductsPage() {
                                 variant="body2"
                                 style={{ fontWeight: 'bold' }}
                               >
-                                {row.product}
+                                {row.name}
                               </Typography>
                               <Typography
                                 component="h6"
@@ -248,11 +252,11 @@ export default function ProductsPage() {
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell align="right">{formatPrice(row.price)}</TableCell>
+                        <TableCell align="right">{formatPrice(row.regularPrice)}</TableCell>
                         <TableCell align="center">
                           <LinearProgress
                             variant="determinate"
-                            value={row.stock * 1}
+                            value={row.quantity * 1}
                           />
                         </TableCell>
                         <TableCell
@@ -260,7 +264,7 @@ export default function ProductsPage() {
                           align="center"
                         >
                           <Chip
-                            label={row.publish}
+                            label={row.quantity > 0 ? 'Available' : 'Out of stock'}
                             size="small"
                           />
                         </TableCell>
