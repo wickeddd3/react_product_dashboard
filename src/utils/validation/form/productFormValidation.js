@@ -7,10 +7,10 @@
 *-------------------------------------------------------------------*/
 
 export const productNameValidation = {
-  name: 'productName',
+  name: 'name',
   label: 'Product Name',
   type: 'text',
-  id: 'productName',
+  id: 'name',
   placeholder: 'Enter product name',
   validation: {
     required: {
@@ -25,10 +25,10 @@ export const productNameValidation = {
 };
 
 export const subDescriptionValidation = {
-  name: 'subDescription',
+  name: 'description',
   label: 'Sub Description',
   type: 'text',
-  id: 'subDescription',
+  id: 'description',
   placeholder: 'Enter sub description',
   validation: {
     required: {
@@ -43,10 +43,10 @@ export const subDescriptionValidation = {
 };
 
 export const productCodeValidation = {
-  name: 'productCode',
+  name: 'code',
   label: 'Product Code',
   type: 'text',
-  id: 'productCode',
+  id: 'code',
   placeholder: 'Enter product code',
   validation: {
     required: {
@@ -61,10 +61,10 @@ export const productCodeValidation = {
 };
 
 export const productSkuValidation = {
-  name: 'productSku',
+  name: 'sku',
   label: 'Product SKU',
   type: 'text',
-  id: 'productSku',
+  id: 'sku',
   placeholder: 'Enter product sku',
   validation: {
     required: {
@@ -133,10 +133,10 @@ export const regularPriceValidation = {
 };
 
 export const salePriceValidation = {
-  name: 'salePriceValidation',
+  name: 'salePrice',
   label: 'Sale Price',
   type: 'number',
-  id: 'salePriceValidation',
+  id: 'salePrice',
   placeholder: 'Sale Price',
   validation: {
     required: {
