@@ -222,8 +222,8 @@ export default function ProductsPage() {
                         >
                           <div style={{ display: 'flex', padding: '10px 10px' }}>
                             <img
-                              srcSet={row.image}
-                              src={row.image}
+                              srcSet={row.image || process.env.PUBLIC_URL + '/noimage.jpg'}
+                              src={row.image || process.env.PUBLIC_URL + '/noimage.jpg'}
                               alt={row.product}
                               loading="lazy"
                               style={{ width: '70px', height: '60px', borderRadius: '10px' }}
